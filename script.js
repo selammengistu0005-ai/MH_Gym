@@ -169,7 +169,7 @@
     window.addEventListener('scroll', toggle, { passive: true });
   };
 
-  /* ---------------------------------------------------------
+/* ---------------------------------------------------------
      3. Card tilt / glow follow on pointer (hero card + nav card)
   --------------------------------------------------------- */
   const initCardInteraction = (selector, maxTilt = 6) => {
@@ -205,10 +205,66 @@
     card.addEventListener('pointerleave', onLeave);
   };
 
+/* ---------------------------------------------------------
+     4. Site loader — hides once the page AND hero video are ready
+  --------------------------------------------------------- */
+  const initSiteLoader = () => {
+    const loader = document.getElementById('site-loader');
+    if (!loader) return;
+
+    const video = document.querySelector('.hero-card-media');
+
+    let pageReady = document.readyState === 'complete';
+    let videoReady = !video; // no video on the page = nothing to wait for
+
+    const hideLoader = () => {
+      loader.classList.add('is-hidden');
+      // remove from tab order / DOM flow once faded out
+      window.setTimeout(() => {
+        loader.setAttribute('aria-hidden', 'true');
+      }, prefersReducedMotion ? 0 : 600);
+    };
+
+    const tryHide = () => {
+      if (pageReady && videoReady) hideLoader();
+    };
+
+    if (!pageReady) {
+      window.addEventListener('load', () => {
+        pageReady = true;
+        tryHide();
+      });
+    }
+
+    if (video && !videoReady) {
+      // readyState 3+ means enough data is buffered to play through
+      if (video.readyState >= 3) {
+        videoReady = true;
+      } else {
+        video.addEventListener('loadeddata', () => {
+          videoReady = true;
+          tryHide();
+        });
+      }
+    }
+
+    // 8s safety net — hide anyway if the video never fires loadeddata
+    // (bad network, blocked source, etc.) so users aren't stuck forever
+    window.setTimeout(() => {
+      if (!videoReady) {
+        videoReady = true;
+        tryHide();
+      }
+    }, 8000);
+
+    tryHide();
+  };
+
   /* ---------------------------------------------------------
      Init
   --------------------------------------------------------- */
   document.addEventListener('DOMContentLoaded', () => {
+    initSiteLoader();
     initLightfall();
     initHeaderScroll();
     initCardInteraction('#hero-card', 5);
