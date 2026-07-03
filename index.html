@@ -8,6 +8,15 @@
 </head>
 <body class="theme-gold-black">
 
+  <!-- ===== Site Loader ===== -->
+  <div class="site-loader" id="site-loader">
+    <div class="site-loader-inner">
+      <span class="site-loader-mark">MH</span>
+      <span class="loader-ring"></span>
+      <span class="site-loader-label">Loading</span>
+    </div>
+  </div>
+
   <!-- ===== Ambient Lightfall Background ===== -->
   <div class="lightfall-container" id="lightfall-bg" aria-hidden="true"></div>
 
@@ -57,20 +66,16 @@
         </div>
 
         <!-- Right: card alongside the paragraph -->
-        <aside class="hero-card" id="hero-card">
-          <div class="hero-card-glow" aria-hidden="true"></div>
-          <span class="hero-card-label">Membership</span>
-          <h3 class="hero-card-heading">Gold Access</h3>
-          <p class="hero-card-desc">
-            Unlimited access, personal coaching sessions, and full use of
-            every station in the house.
-          </p>
-          <ul class="hero-card-list">
-            <li>24/7 Gym Access</li>
-            <li>1-on-1 Coaching</li>
-            <li>Free Nutrition Plan</li>
-          </ul>
-          <a href="#join" class="hero-card-btn">Get Started</a>
+        <aside class="hero-card hero-card-video" id="hero-card">
+          <video
+            class="hero-card-media"
+            src="https://res.cloudinary.com/dhoymhers/video/upload/v1783088729/MH_Gym_gilamw.mp4"
+            autoplay
+            muted
+            loop
+            playsinline
+            aria-hidden="true"
+          ></video>
         </aside>
 
       </div>
